@@ -30,9 +30,10 @@ void drawRose() {
 }
 
 void drawPetals(float petalSize) {
+  print(petalSize);
   for (int i = 0; i < 5; i++) {
     fill(colors[int(random(3))]);
-    ellipse(0, -7, petalSize, petalSize);
+    ellipse(0, -(petalSize / 1.8), petalSize, petalSize);
     rotate(radians(72));
   }
 }

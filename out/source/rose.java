@@ -47,9 +47,10 @@ int[] colors = {lightOrange, mediumOrange, darkOrange};
 }
 
  public void drawPetals(float petalSize) {
+  print(petalSize);
   for (int i = 0; i < 5; i++) {
     fill(colors[PApplet.parseInt(random(3))]);
-    ellipse(0, -7, petalSize, petalSize);
+    ellipse(0, -(petalSize / 1.8f), petalSize, petalSize);
     rotate(radians(72));
   }
 }
