@@ -21,20 +21,26 @@ int lightOrange = 0xFFFAC53F;
 int mediumOrange = 0xFFFFB905;
 int darkOrange = 0xFFFF980F;
 
-int[] colors = {lightOrange, mediumOrange, darkOrange};
+int[] colors = {lightOrange, mediumOrange, darkOrange,mediumOrange, darkOrange};
 
  public void setup() {
   /* size commented out by preprocessor */;
-  background(255);
+  frameRate(10);
   // noStroke();
+  draw();
+}
+
+ public void draw() {
+  background(255);
   drawRose();
 }
 
+
  public void drawRose() {
   translate(width/2, height/2);
-  float petalSize = 90;
+  float petalSize = 400;
   float rotation = 45;
-  for (int i = 0; i < 7; ++i) {
+  for (int i = 0; i < 30; ++i) {
     drawPetals(petalSize);
     rotate(radians(rotation));
     if (i < 3) {
@@ -47,11 +53,12 @@ int[] colors = {lightOrange, mediumOrange, darkOrange};
 }
 
  public void drawPetals(float petalSize) {
-  print(petalSize);
   for (int i = 0; i < 5; i++) {
-    fill(colors[PApplet.parseInt(random(3))]);
+    // fill(colors[int(random(3))]);
+    fill(colors[i]);
     ellipse(0, -(petalSize / 1.8f), petalSize, petalSize);
-    rotate(radians(72));
+    // rotate(radians(72));
+    rotate(radians(frameCount + mouseX));
   }
 }
 
