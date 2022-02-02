@@ -6,29 +6,47 @@ color darkOrange = #FF980F;
 
 color[] colors = {lightOrange, mediumOrange, darkOrange,mediumOrange, darkOrange};
 
+int maxLayers = 9;
 int layers = 1;
-float petalSize = 20;
+float petalSize = 10;
 boolean isGrowing = true;
 
 void setup() {
-  size(800, 800, P3D);
-  frameRate(6);
+  size(900, 900, P3D);
+  ortho();
+  frameRate(3);
   // noStroke();
   draw();
 }
 
 void draw() {
-  background(255);
-  drawRose();
+  background(#F47983);
+  drawRow();
+  translate(0, 300);
+  drawRow();
+  translate(0, 300);
+  drawRow();
+  changeLayers();
+
   // noLoop();
   println("layers: "+layers);
   println("petalSize: "+petalSize);
   setIsGrowing();
 }
 
+void drawRow () {
+  pushMatrix();
+  translate(150, 150);
+  drawRose();
+  translate(300, 0);
+  drawRose();
+  translate(300, 0);
+  drawRose();
+  popMatrix();
+}
+
 
 void drawRose() {
-  translate(width/2, height/2);
   float rotation = 45;
   float layerPetalSize = petalSize;
   pushMatrix();
@@ -36,19 +54,22 @@ void drawRose() {
     translate(0,0, -i);
     drawPetals(layerPetalSize);
     // rotate(radians(rotation));
-    if (i < 7) {
+    if (i < (maxLayers /2)) {
     layerPetalSize = layerPetalSize * 1.4;
     } else {
       layerPetalSize = layerPetalSize * 1.5;
     }
   }
   popMatrix();
+  drawCenter();
+}
+
+void changeLayers() {
   if (isGrowing) {
     layers = layers + 1;
   } else {
     layers = layers - 1;
   }
-  drawCenter();
 }
 
 void drawPetals(float petalSize) {
@@ -73,7 +94,7 @@ void drawCenter() {
 }
 
 void setIsGrowing() {
-  if (layers == 13){
+  if (layers == maxLayers){
     isGrowing = false;
   } else if (layers == 1) {
     isGrowing = true;

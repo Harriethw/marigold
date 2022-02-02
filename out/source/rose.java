@@ -23,29 +23,47 @@ int darkOrange = 0xFFFF980F;
 
 int[] colors = {lightOrange, mediumOrange, darkOrange,mediumOrange, darkOrange};
 
+int maxLayers = 9;
 int layers = 1;
-float petalSize = 20;
+float petalSize = 10;
 boolean isGrowing = true;
 
  public void setup() {
   /* size commented out by preprocessor */;
-  frameRate(6);
+  ortho();
+  frameRate(3);
   // noStroke();
   draw();
 }
 
  public void draw() {
-  background(255);
-  drawRose();
+  background(0xFFF47983);
+  drawRow();
+  translate(0, 300);
+  drawRow();
+  translate(0, 300);
+  drawRow();
+  changeLayers();
+
   // noLoop();
   println("layers: "+layers);
   println("petalSize: "+petalSize);
   setIsGrowing();
 }
 
+ public void drawRow () {
+  pushMatrix();
+  translate(150, 150);
+  drawRose();
+  translate(300, 0);
+  drawRose();
+  translate(300, 0);
+  drawRose();
+  popMatrix();
+}
+
 
  public void drawRose() {
-  translate(width/2, height/2);
   float rotation = 45;
   float layerPetalSize = petalSize;
   pushMatrix();
@@ -53,19 +71,22 @@ boolean isGrowing = true;
     translate(0,0, -i);
     drawPetals(layerPetalSize);
     // rotate(radians(rotation));
-    if (i < 7) {
+    if (i < (maxLayers /2)) {
     layerPetalSize = layerPetalSize * 1.4f;
     } else {
       layerPetalSize = layerPetalSize * 1.5f;
     }
   }
   popMatrix();
+  drawCenter();
+}
+
+ public void changeLayers() {
   if (isGrowing) {
     layers = layers + 1;
   } else {
     layers = layers - 1;
   }
-  drawCenter();
 }
 
  public void drawPetals(float petalSize) {
@@ -90,7 +111,7 @@ boolean isGrowing = true;
 }
 
  public void setIsGrowing() {
-  if (layers == 13){
+  if (layers == maxLayers){
     isGrowing = false;
   } else if (layers == 1) {
     isGrowing = true;
@@ -98,7 +119,7 @@ boolean isGrowing = true;
 }
 
 
-  public void settings() { size(800, 800, P3D); }
+  public void settings() { size(900, 900, P3D); }
 
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "rose" };
