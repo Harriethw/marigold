@@ -54,12 +54,12 @@ void drawRose() {
 void drawPetals(float petalSize) {
   //TODO: increase number of petals depending on layer;
   //TODO: grow petals over time until max size, then move on to next layer - have a variable to hold which layer is growing
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 8; i++) {
     translate(0,0, -i);
-    // fill(colors[int(random(3))]);
-    fill(colors[i]);
+    fill(colors[int(random(3))]);
+    // fill(colors[i]);
     ellipse(0, -(petalSize / 1.8), petalSize, petalSize);
-    rotate(radians(72));
+    rotate(radians(45));
     // rotate(radians(frameCount + mouseX));
   }
 }
