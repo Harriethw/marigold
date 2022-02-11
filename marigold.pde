@@ -7,31 +7,51 @@ color darkOrange = #FF980F;
 color[] colors = {lightOrange, mediumOrange, darkOrange,mediumOrange, darkOrange};
 
 int maxLayers = 9;
-int layers = 1;
+int layers = 3;
 float petalSize = 10;
 boolean isGrowing = true;
 
+PImage img;
+
 void setup() {
-  size(900, 900, P3D);
+  size(500, 700, P3D);
   ortho();
   frameRate(3);
+  img = loadImage("illustration.jpg");
   // noStroke();
-  draw();
 }
 
 void draw() {
   background(#F47983);
-  drawRow();
-  translate(0, 300);
-  drawRow();
-  translate(0, 300);
-  drawRow();
+  drawImage();
+  drawText();
+  translate(260, 240);
+  drawRose();
+  // drawRow();
+  // translate(0, 300);
+  // drawRow();
+  // translate(0, 300);
+  // drawRow();
   changeLayers();
 
   // noLoop();
-  println("layers: "+layers);
-  println("petalSize: "+petalSize);
   setIsGrowing();
+}
+
+void drawImage () {
+  pushMatrix();
+    translate(0, 0, -400);
+    tint(0, 153, 204); 
+    image(img, 0, 0);
+  popMatrix();
+}
+
+void drawText () {
+  pushMatrix();
+    translate(0, 0, -399);
+    textSize(100);
+    text("marigold", 40, 120);
+  popMatrix();
 }
 
 void drawRow () {
