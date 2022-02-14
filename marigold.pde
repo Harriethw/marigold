@@ -4,7 +4,7 @@ color lightOrange = #FAC53F;
 color mediumOrange = #FFB905;
 color darkOrange = #FF980F;
 
-color[] colors = {lightOrange, mediumOrange, darkOrange,mediumOrange, darkOrange};
+color[] colors = {lightOrange, mediumOrange, lightOrange, mediumOrange, darkOrange};
 
 int maxLayers = 9;
 int layers = 3;
@@ -13,20 +13,33 @@ boolean isGrowing = true;
 
 PImage img;
 
+float t = 0; // time passed
+float tChange = .02; // how quick time flies
+
 void setup() {
-  size(500, 700, P3D);
+  size(500, 730, P3D);
   ortho();
   frameRate(3);
   img = loadImage("illustration.jpg");
   // noStroke();
 }
-
+int x = 0;
 void draw() {
   background(#F47983);
   drawImage();
   drawText();
-  translate(260, 240);
-  drawRose();
+  pushMatrix();
+    translate(80, 450);
+    drawRose();
+  popMatrix();
+  pushMatrix();
+    translate(260, 240);
+    drawRose();
+  popMatrix();
+  pushMatrix();
+    translate(340, 550);
+    drawRose();
+  popMatrix();
   // drawRow();
   // translate(0, 300);
   // drawRow();
@@ -36,6 +49,13 @@ void draw() {
 
   // noLoop();
   setIsGrowing();
+  // if (x < 100) {
+  //   x = x + 1;
+  // } else {
+  //   noLoop();
+  // }
+  // // Saves each frame as screen-0001.tif, screen-0002.tif, etc.
+  // saveFrame(); 
 }
 
 void drawImage () {
@@ -49,8 +69,9 @@ void drawImage () {
 void drawText () {
   pushMatrix();
     translate(0, 0, -399);
-    textSize(100);
-    text("marigold", 40, 120);
+    textSize(80);
+    textLeading(90);
+    text("all things \nchange", 40, 100);
   popMatrix();
 }
 
@@ -93,16 +114,34 @@ void changeLayers() {
 }
 
 void drawPetals(float petalSize) {
-  //TODO: increase number of petals depending on layer;
   //TODO: grow petals over time until max size, then move on to next layer - have a variable to hold which layer is growing
   for (int i = 0; i < 8; i++) {
     translate(0,0, -i);
     fill(colors[int(random(3))]);
     // fill(colors[i]);
-    ellipse(0, -(petalSize / 1.8), petalSize, petalSize);
+    // ellipse(0, -(petalSize / 1.8), petalSize, petalSize);
+
+    drawPetal(petalSize);
     rotate(radians(45));
-    // rotate(radians(frameCount + mouseX));
   }
+}
+
+void drawPetal(float petalSize) {
+  float nInt = 2.491;
+  float nAmp = 0.51;
+  float resolution = 300; // how many points in the circle
+  beginShape();
+  for (float a=0; a<=TWO_PI; a+=TWO_PI/resolution) {
+    float nVal = map(noise( cos(a)*nInt+1, sin(a)*nInt+1, t), 0.0, 1.0, nAmp, 1.0); // map noise value to match the amplitude
+
+    float x = cos(a)*petalSize *nVal;
+    float y = sin(a)*petalSize *nVal;
+
+    vertex(x, y); 
+  }
+  endShape(CLOSE);
+
+  t += tChange;
 }
 
 void drawCenter() {
